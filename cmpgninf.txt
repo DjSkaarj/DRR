@@ -1,0 +1,11 @@
+{
+mapname = DR01
+gamemode = teamlms
+winlimit = 2
+}
+
+{
+mapname = DR02
+gamemode = teamlms
+winlimit = 2
+}

@@ -1,0 +1,21 @@
+// Taunts.
+
+// Male ones
+
+$random DRMTAUNT { player/taunt1 player/taunt2 player/taunt3 }
+
+player/taunt1 DTAUNT
+player/taunt2 DTAUNT1
+player/taunt3 DTAUNT2
+
+$playeralias	player	male	*taunt	    	DRMTAUNT
+
+// Female ones
+
+$random DRFTAUNT { player/ftaunt1 player/ftaunt2 player/ftaunt3 }
+
+player/ftaunt1 DFTAUNT
+player/ftaunt2 DFTAUNT1
+player/ftaunt3 DFTAUNT2
+
+$playeralias	player	female	*taunt	    	DRFTAUNT

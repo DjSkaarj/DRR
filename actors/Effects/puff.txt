@@ -1,0 +1,46 @@
+Actor DRR_BulletPuff : Effect replaces BulletPuff
+{
+	VSpeed 1
+	Mass 5
+
+	RenderStyle Translucent
+	Alpha 0.5
+  
+	+ALLOWPARTICLES
+	+RANDOMIZE
+	
+	States
+	{
+	 Spawn:
+		PUFF A 4 BRIGHT 
+		PUFF B 4 A_SpawnDebris("DRR_BulletSpark")
+	 Melee:
+		PUFF CD 4
+		Stop
+	}
+}
+
+Actor DRR_BulletSpark : CollidingFallingEffect
+{
+	Health 4 // Amount of particles
+	Speed 2
+	
+	RenderStyle Add
+	Alpha 1.0
+	Scale 0.2
+	
+	+MISSILE
+	+FLOORCLIP
+	+NOTELEPORT
+	
+	States
+	{
+	 Spawn:
+		PUFF A 1
+		PUFF AAAAA 1  Bright A_SetTranslucent(0.9, 1)
+		PUFF AAAAAA 1  Bright A_SetTranslucent(0.8, 1)
+		PUFF AAAAAAAA 1  Bright A_SetTranslucent(0.7, 1)
+		PUFF AAAAAAAAAA 1 Bright A_SetTranslucent(0.6 ,1)
+		Stop
+	}
+}

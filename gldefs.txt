@@ -1,0 +1,11 @@
+#include "actors/traps/sentry.gl"
+#include "actors/traps/holodemon.gl"
+#include "actors/effects/laser.gl"
+
+Glow
+{
+	Flats
+	{
+		flat WQLAVA
+	}
+}

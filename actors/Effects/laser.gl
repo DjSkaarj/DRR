@@ -1,0 +1,10 @@
+object Light_Laser
+{
+	frame TNT1 { light LASER }
+}
+
+pointlight LASER
+{
+	color 1.0 0.0 0.0
+	size 96
+}

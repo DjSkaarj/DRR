@@ -1,0 +1,13 @@
+clearskills
+
+skill normal
+{
+	AmmoFactor = 1
+	DoubleAmmoFactor = 1
+	DamageFactor = 1
+	SpawnFilter = normal
+	ACSReturn = 2
+	MustConfirm = "Start an offline game? (y/n)"
+	Name = "Normal"
+	DefaultSkill
+}

@@ -1,0 +1,52 @@
+actor HoloDemon 6201
+{
+	//$category Traps
+	Obituary "$OB_HDEMON"
+	
+	Speed 15
+	Radius 30
+	Height 56
+	Mass 400
+	
+	Renderstyle Add
+	Alpha 1.0
+	
+	Seesound 	"demon/sight"
+	Attacksound "demon/melee"
+	Painsound 	"demon/pain"
+	Deathsound 	"demon/death"
+	Activesound "demon/active"
+  
+	MONSTER
+	+FLOORCLIP
+	+NOBLOOD
+	+INVULNERABLE
+	
+	States
+	{
+	 Spawn:
+		HARG AB 10 A_Look
+		loop
+	 See:
+		HARG AABBCCDD 2 A_Chase
+		loop
+	 Melee:
+		HARG EF 8 A_FaceTarget
+		HARG G 8 A_CustomMeleeAttack(250)
+		goto See
+	 Pain:
+		HARG H 2
+		HARG H 2 A_Pain
+		goto See
+	 Death:
+		HARG I 8
+		HARG J 8 A_Scream
+		HARG K 4
+		HARG L 4 A_NoBlocking
+		HARG M 4
+		HARG N 1
+	 FadeOut:
+		HARG N 1 A_FadeOut(0.05)
+		loop
+	}
+}

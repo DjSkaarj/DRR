@@ -1,0 +1,18 @@
+clearteams
+
+Team "Activator"
+{
+   PlayerColor "FF FF FF"
+   TextColor "White"
+   RailColor "FF FF FF"
+   PlayerStartThingNumber 5080
+}
+
+Team "Runners Team"
+{
+   PlayerColor "FF 80 00"
+   TextColor "Orange"
+   PlayerColor "FF 80 00"
+   RailColor "FF 80 00"
+   PlayerStartThingNumber 5080
+}

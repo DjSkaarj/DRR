@@ -1,0 +1,78 @@
+[enu default]
+
+OB_ELECTRIC		= "%o measured the voltage using his body.";
+OB_FALLING 		= "%o failed at stupid jumping puzzle.";
+OB_CRUSH 		= "%o was flattened.";
+OB_SUICIDE 		= "%o became an hero.";
+OB_HDEMON 		= "%o has lost at Doom 666.0!";
+OB_SENTRY		= "%o was ventilated by an auto-sentry.";
+OB_RROCKET		= "%o was torn into pieces by a rocket.";
+OB_SPLASMA 		= "%o was disintegrated into ashes.";
+
+DR_MOREPLAYERS 	= "This game needs at least 2 players";
+DR_ISACTIVATOR 	= " is activator!";
+DR_TIMELEFT		= "Time left: ";
+
+DR_TIMEADD1		= " second added."; 	// 1
+DR_TIMEADD2		= " seconds added.";	// other
+
+TR_STATUS		= "Trap status: ";
+TR_ST_USED		= "Used";
+TR_ST_BLOCK		= "Unavailable";
+TR_ST_READY 	= "Ready";
+TR_ST_BUSY 		= "In progess...";
+
+TR_PTURRETS 	= "Plasma turrets were deactivated.";
+
+M_DR01			= "Testing centre";
+M_DR02			= "High speed";
+
+TRDR01_01 		= "Bridge lowers into the lava for\nfive seconds. Whoever falls down will\nbe burned alive.";
+TRDR01_02		= "The deadly crusher will be activated.";
+TRDR01_03		= "The floor in the marked zone will\nlower, after this it will turn into\nthe oven.";
+TRDR01_04		= "You choose one of the tunnels which\nwill be deadly for runners.";
+TRDR01_05		= "The pillars will be lowered after a\nslight delay.";
+TRDR01_06		= "Players in the marked zone will have\nto resist the deadly hologram for\nabout eight seconds.";
+TRDR01_07		= "The sentry gun will be activated for\nfive seconds.\n";
+TRDR01_08		= "Everything in the exit zone will be\nburnt";
+
+[rus]
+
+OB_ELECTRIC		= "%o измерил напряжение с помощью своего тела.";
+OB_DEFAULT  	= "%o погиб.";
+OB_LAVA			= "%o сгорел в лаве.";
+OB_FALLING   	= "%o не смог пройти тупую секцию с прыжками.";
+OB_CRUSH    	= "%o был расплющен.";
+OB_SUICIDE  	= "%o принял ислам.";
+OB_HDEMON    	= "%o проиграл в Doom 666.0!";
+OB_SENTRY   	= "%o был провентилирован автомати„еской турелью.";
+OB_RROCKET   	= "%o был разорван на куски ракетой.";
+OB_SPLASMA   	= "%o был дизинтегрирован в пепел.";
+
+DR_MOREPLAYERS  = "ƒля игры необходимо как минимум два игрока.";
+DR_ISACTIVATOR  = " - активатор!";
+DR_TIMELEFT  	= "¬ремени осталось: ";
+
+DR_TIMEADDRU1  	= " секунда добавлена";  // *1
+DR_TIMEADDRU2  	= " секунды добавлено.";  // *2 - *4
+DR_TIMEADDRU3  	= " секунд добавлено.";  // *5 - *0
+
+TR_STATUS  		= "—татус ловушки: ";
+TR_ST_USED  	= "Ѕыла использована";
+TR_ST_BLOCK  	= "Ќедоступна";
+TR_ST_READY   	= "√отова к использованию";
+TR_ST_BUSY   	= "¬ процессе...";
+
+TR_PTURRETS  	= "ѕлазменные турели были отклю„ены.";
+
+M_DR01			= "÷ентр тестирования";
+M_DR02			= "¬ысокая скорость";
+
+TRDR01_01 		= "ћост опускается в лаву на 5 секунд.\nѕопавшие в ловушку сгорают заживо.";
+TRDR01_02		= "— потолка мгновенно опускается давилка.";
+TRDR01_03		= "ѕол в обозна„енной зоне опускается,\nпосле „его там вклю„ается пе„ь.";
+TRDR01_04		= "¬ыбранный вами проход окажется\nсмертельным для бегунов.";
+TRDR01_05		= "— небольшой задержкой эти колонны\nопустятся в зону со смертельным для\n„еловека напряжением.";
+TRDR01_06		= "»гроки на восемь секунд окажутся\nзапертыми со смертельными 'голограммами'.";
+TRDR01_07		= "Ќа пять секунд будет вклю„ена турель.\n";
+TRDR01_08		= "¬ зоне выхода будет выпущена струя\nогня, заставляя оппонентов сгореть\nзаживо.";

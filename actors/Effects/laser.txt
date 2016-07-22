@@ -1,0 +1,9 @@
+Actor Light_Laser : Effect
+{
+	States
+	{
+	 Spawn:
+		TNT1 A -1
+		Stop
+	}
+}

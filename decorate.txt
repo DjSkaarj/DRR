@@ -1,0 +1,6 @@
+#include "actors/player.txt"
+#include "actors/traps/sentry.txt"
+#include "actors/traps/holodemon.txt"
+#include "actors/effects/base.txt"
+#include "actors/effects/puff.txt"
+#include "actors/effects/laser.txt"

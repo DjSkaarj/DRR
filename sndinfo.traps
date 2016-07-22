@@ -1,0 +1,16 @@
+// Traps.
+
+// Common
+
+traps/laser 		LASER
+traps/decompression DECOMPR
+traps/fan 			FANSOUND
+traps/alarm 		ALARM
+
+// Sentry
+
+sentry/active		DSSENTID
+sentry/death		DSSENTDI
+sentry/attack		DSSENTFI
+
+$limit 				sentry/attack	0

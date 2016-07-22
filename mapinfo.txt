@@ -1,0 +1,27 @@
+include "mapinfo.skill"
+
+map DR01 lookup M_DR01
+{
+   Levelnum = 101
+   Music = "lock"
+   Next = "dr02"
+   Sky1 = "SKY1", 0
+   
+   ForceFallingDamage 
+   FallingDamage
+   NoCrouch
+   NoIntermission
+}
+
+map DR02 lookup M_DR02
+{
+   Levelnum = 102
+   Music = "run"
+   Next = "dr01"
+   Sky1 = "SKY1", 0
+   
+   ForceFallingDamage 
+   FallingDamage
+   NoCrouch
+   NoIntermission
+}

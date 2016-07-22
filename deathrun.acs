@@ -1,0 +1,267 @@
+#library "deathrun"
+#include "zcommon.acs"
+
+#libdefine MAX_PLAYERS 64
+#libdefine MAP_SCRIPT 100
+
+#libdefine TR_MAXTRAPS 100
+#libdefine TR_ARGS 2
+#libdefine TR_STATUS 0
+#libdefine TR_DESCRIPTION 1
+#libdefine TR_READY 0
+#libdefine TR_BUSY 1
+#libdefine TR_USED 2
+
+#define TEAMNUM_ACTIVATOR 0
+#define TEAMNUM_RUNNERS 1
+
+//Tids
+#define ACT_SpawnPointTID 600
+
+int ActivatorPlayer;
+int TimeLeft;
+
+int players[MAX_PLAYERS];
+
+// Player TID assigner.
+script 301 ENTER
+{
+    Thing_ChangeTid(0, 1000 + PlayerNumber());
+}
+script 311 RESPAWN
+{
+    Thing_ChangeTid(0, 1000 + PlayerNumber());
+}
+
+// Safe way to move players between teams.
+function void SetPlayerTeam(int player, int team)
+{
+    ACS_ExecuteAlways(304, 0, player, team);
+}
+script 304 (int player, int team)
+{
+    // Moving player to team requires changing activator.
+    // But doing so makes it possible to kill the main script
+    // when player dies/spectates/disconnects.
+    // To fix this bug, a separate script is used
+    // to isolate activator switching.
+	// (yeah I could remember last player but
+	// I didn't think about it before.)
+    SetActivator(1000 + players[player]);
+    Player_SetTeam(team);
+}
+
+
+// Main script.
+script 302 OPEN
+{
+	if (PlayerCount() < 2)
+		ResetMusic();
+
+    // Wait for at least two players.
+    while (PlayerCount() < 2)
+    {
+        HudMessageBold(l:"DR_MOREPLAYERS"; HUDMSG_PLAIN,
+            10, CR_GOLD, 0.5, 0.45, 0);
+        delay(35);
+    }
+    HudMessageBold(s:""; HUDMSG_PLAIN,
+                10, CR_GOLD, 0.5, 0.45, 0);
+
+    // Fill continious list of players.
+    int numplayers = 0;
+    for (int i = 0; i < MAX_PLAYERS; i++)
+    {
+        if (PlayerInGame(i))
+        {
+            players[numplayers] = i;
+            numplayers++;
+        }
+    }
+
+    // Select activator.
+    int chosen = Random(0, numplayers - 1);
+    ActivatorPlayer = players[chosen];
+    printbold(n:ActivatorPlayer + 1, l:"DR_ISACTIVATOR");
+
+	// Wait till activator is spawned if there is telefragorama on spawn.
+	while (GetActorProperty(1000 + ActivatorPlayer, APROP_HEALTH) <= 0)
+		Delay(1);
+
+    SetActorProperty(1000 + ActivatorPlayer, APROP_SPEED, 1.3); // Make activator faster.
+    TeleportOther(1000 + ActivatorPlayer, ACT_SpawnPointTID, 1); // Teleport activator away.
+
+    // Prevent instawin with only 2 players by adding some fake players.
+    if (PlayerCount() == 2)
+    {
+        ConsoleCommand("addbot");
+        ConsoleCommand("addbot");
+    }
+
+    int delayed = 0;
+    for (i = 0; i < numplayers; i++)
+    {
+        if (i == chosen)
+            continue;
+
+        // Change activator's team at the right moment
+        // to prevent instawin.
+        // Blue team = activator team.
+        if (BlueCount() == 1)
+            SetPlayerTeam(chosen, TEAMNUM_ACTIVATOR);
+
+        SetPlayerTeam(i, TEAMNUM_RUNNERS);
+
+        Delay(5);
+        delayed += 5;
+    }
+
+    // Remove fake players.
+    ConsoleCommand("removebots");
+
+    // Wait at least 11 seconds to avoid starting game while
+    // possibly in "Prepare to game" state.
+    if (delayed < 11 * 35)
+        Delay(11 * 35 - delayed);
+
+    // Start game.
+    ACS_Execute(MAP_SCRIPT, 0); // Launch map script.
+}
+
+// Timer.
+function void DisplayTime(int color)
+{
+	SetFont("SMALLFONT");
+    HudMessageBold(l:"DR_TIMELEFT", d:TimeLeft; HUDMSG_PLAIN, 11, color, 0.5, 0.1, 2.0);
+}
+function void StartTimer(int time)
+{
+    TimeLeft = time;
+    ACS_Execute(303, 0);
+	ACS_Execute(323, 0); // For music control.
+}
+function void StopTimer(void)
+{
+	ACS_Terminate(303, 0);
+}
+script 303 (void)
+{
+	if (TimeLeft > 10)
+    {
+        DisplayTime(CR_ORANGE);
+        Delay(35);
+        TimeLeft--;
+		restart;
+	}
+	if (TimeLeft > 5)
+    {
+        DisplayTime(CR_RED);
+        Delay(17);
+		DisplayTime(CR_ORANGE);
+		Delay(18);
+        TimeLeft--;
+		restart;
+	}
+	if (TimeLeft > 0)
+    {
+        DisplayTime(CR_RED);
+        Delay(9);
+		DisplayTime(CR_ORANGE);
+		Delay(8);
+		DisplayTime(CR_RED);
+        Delay(9);
+		DisplayTime(CR_ORANGE);
+		Delay(9);
+        TimeLeft--;
+		restart;
+	}
+
+    DisplayTime(CR_RED);
+
+    // Time is up: kill all runners.
+    for (int i = 0; i < MAX_PLAYERS; i++)
+    {
+        if (i != ActivatorPlayer)
+            Thing_Destroy(1000 + i, true);
+    }
+}
+
+// Adding gameplay time.
+// BUG: time will be displayed with incorrect color for a moment
+// if the result after adding is less than 10.
+function void AddTime(int time)
+{
+    TimeLeft += time;
+    printbold(s:"\cd", d:time, s:" seconds added"); // fixme
+    DisplayTime(CR_ORANGE);
+}
+script 300 (int time)
+{
+    AddTime(time);
+}
+
+// Runner exit script.
+function void KillActivator(void)
+{
+    StopTimer(); // Stop timer so runners won't die after winning.
+    Thing_Destroy(1000 + ActivatorPlayer, true);
+}
+script 255 (void)
+{
+    KillActivator();
+}
+
+
+
+// Music control.
+//
+// Music rules:
+// * Music is off in the beginning of the first round on the current map
+//   or if there ever was only one player in the previous round.
+// * Music is turned on by a script.
+// * Music is not turned off at the start of following rounds.
+// * Music is quieter when waiting for the doors to open.
+
+function void ResetMusic(void)
+{
+	SetCVar("_drr_lastmap", GetLevelInfo(LEVELINFO_LEVELNUM));
+	SetCVar("_drr_lastround", 1);
+	SetMusic("");
+}
+
+script 320 OPEN
+{
+	if (GetLevelInfo(LEVELINFO_LEVELNUM) < 100)
+	{
+		SetCvar("_drr_lastmap", 0);
+		SetCvar("_drr_lastround", 0);
+		terminate;
+	}
+
+	// Turn off music if it is the first round.
+	if (GetCVar("_drr_lastmap") != GetLevelInfo(LEVELINFO_LEVELNUM)
+	 || GetCVar("_drr_lastround") < 2)
+		ResetMusic();
+
+	// Turn off music at the beginning of the next round
+	// if there is only one player left.
+	while (PlayerCount() >= 2)
+		Delay(1);
+
+	SetCvar("_drr_lastmap", 0);
+	SetCvar("_drr_lastround", 0);
+}
+
+// Called by StartTimer().
+script 323 (void)
+{
+	SetCVar("_drr_lastround", GetCVar("_drr_lastround") + 1);
+}
+
+function int min(int a, int b) { if (a < b) return a; return b; }
+function int max(int a, int b) { if (a > b) return a; return b; }
+
+function void LowerButton(int tag)
+{
+	Floor_LowerToLowest(tag, 255);
+}
