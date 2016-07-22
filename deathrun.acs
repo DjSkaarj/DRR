@@ -1,7 +1,19 @@
 #library "deathrun"
-#include "zcommon.acs"
 
-#libdefine MAX_PLAYERS 64
+// ACSUtils settings:
+#define TIDALLOCSTART 15000
+
+// Includes:
+#include "zcommon.acs"
+#include "acsutils.acs"
+
+// Your project's error handler:
+function void ACSUtilsErrorHandler(int type, int message)
+{
+	Log(s:"error: ", s:message);
+	printbold(s:"error: ", s:message);
+}
+
 #libdefine MAP_SCRIPT 100
 
 #libdefine TR_MAXTRAPS 100
@@ -257,9 +269,6 @@ script 323 (void)
 {
 	SetCVar("_drr_lastround", GetCVar("_drr_lastround") + 1);
 }
-
-function int min(int a, int b) { if (a < b) return a; return b; }
-function int max(int a, int b) { if (a > b) return a; return b; }
 
 function void LowerButton(int tag)
 {
