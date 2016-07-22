@@ -92,10 +92,12 @@ script 302 OPEN
     TeleportOther(1000 + ActivatorPlayer, ACT_SpawnPointTID, 1); // Teleport activator away.
 
     // Prevent instawin with only 2 players by adding some fake players.
+	bool botsAdded = false;
     if (PlayerCount() == 2)
     {
-        ConsoleCommand("addbot");
-        ConsoleCommand("addbot");
+		botsAdded = true;
+        ConsoleCommand("addbot drr_bot");
+        ConsoleCommand("addbot drr_bot");
     }
 
     int delayed = 0;
@@ -117,7 +119,11 @@ script 302 OPEN
     }
 
     // Remove fake players.
-    ConsoleCommand("removebots");
+	if (botsAdded)
+	{
+		for (i = 0; i < 2; i++)
+			ConsoleCommand("removebot drr_bot");
+	}
 
     // Wait at least 11 seconds to avoid starting game while
     // possibly in "Prepare to game" state.

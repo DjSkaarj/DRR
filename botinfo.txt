@@ -1,0 +1,20 @@
+// A bot to enable activator swapping when there are only two players.
+{
+name = "drr_bot"
+script = HUMANBOT
+chatlump = MYBOT1
+gender = male
+color = "BF 77 00"
+railcolor = "red"
+skin = "Doomcrate"
+class = "fighter"
+revealed = true
+accuracy = 3
+intelect = 1
+evade = 4
+anticipation = 1
+reactiontime = 3
+perception = 2
+chatfrequency = 100
+favoriteweapon = "shotgun"
+}
